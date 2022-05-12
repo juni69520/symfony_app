@@ -4,9 +4,9 @@ services:
   app:
     build: ./docker/php/.
     container_name: app-php
-    working_dir: /var/www/site
+    working_dir: /var/www/PortSF
     volumes:
-      - ./site:/var/www/site
+      - ./PortSF:/var/www/PortSF
     networks:
       - app-network
 
@@ -14,11 +14,11 @@ services:
   nginx:
     image: nginx:alpine
     container_name: app-nginx
-    working_dir: /var/www/site
+    working_dir: /var/www/PortSF
     ports:
       - 8001:80
     volumes:
-      - ./site:/var/www/site
+      - ./PortSF:/var/www/PortSF
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
@@ -40,6 +40,15 @@ services:
     networks:
       - app-network
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
+
